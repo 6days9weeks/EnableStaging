@@ -1,5 +1,7 @@
 import { Plugin, registerPlugin } from "enmity/managers/plugins";
 import { getByProps, getModule } from "enmity/metro";
+import { Dialog } from "enmity/metro/common";
+import { reload } from "enmity/api/native";
 import * as Assets from "enmity/api/assets";
 const Toast = getModule(
   (m) =>
@@ -38,7 +40,7 @@ const EnableStaging: Plugin = {
         nodes
           .find((x) => x.name === "ExperimentStore")
           .actionHandler["OVERLAY_INITIALIZE"]({ user: { flags: 1 } });
-      } catch { }
+      } catch {}
       const oldUser = UserStore.getCurrentUser;
       UserStore.getCurrentUser = () => {
         return { hasFlag: () => true };
@@ -62,7 +64,7 @@ const EnableStaging: Plugin = {
         nodes
           .find((x) => x.name === "ExperimentStore")
           .actionHandler["OVERLAY_INITIALIZE"]({ user: { flags: 1 } });
-      } catch { }
+      } catch {}
       const oldUser = UserStore.getCurrentUser;
       UserStore.getCurrentUser = () => {
         return { hasFlag: () => true };
@@ -88,7 +90,18 @@ const EnableStaging: Plugin = {
     }, 300); // give Flux some time to initialize -- 300ms should be more than enough
   },
 
-  onStop() { },
+  onStop() {
+    const wannaReload = () => {
+      Dialog.show({
+        title: "Experiments Disabled.",
+        body: "Disabling Experiments requires a restart, would you like to restart Discord?",
+        confirmText: "Yes",
+        cancelText: "No",
+        onConfirm: reload,
+      });
+    };
+    wannaReload();
+  },
 };
 
 registerPlugin(EnableStaging);
