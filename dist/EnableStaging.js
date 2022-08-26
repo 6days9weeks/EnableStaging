@@ -1,62 +1,88 @@
-function u(e) {
+function d(e) {
   window.enmity.plugins.registerPlugin(e);
 }
-function c(e, n) {
-  return window.enmity.modules.getModule(e, n);
+function l(e, s) {
+  return window.enmity.modules.getModule(e, s);
 }
-function r(...e) {
+function o(...e) {
   return window.enmity.modules.getByProps(...e);
 }
 window.enmity.modules.common;
-function i(e) {
+function a(e) {
   return window.enmity.assets.getIDByName(e);
 }
-const s = c(
-    (e) =>
-      e.open !== void 0 &&
-      e.close !== void 0 &&
-      !e.openLazy &&
-      !e.startDrag &&
-      !e.init &&
-      !e.openReplay &&
-      !e.openChannelCallPopout
-  ),
-  d = {
+const c = l(
+  (e) =>
+    e.open !== void 0 &&
+    e.close !== void 0 &&
+    !e.openLazy &&
+    !e.startDrag &&
+    !e.init &&
+    !e.openReplay &&
+    !e.openChannelCallPopout
+),
+  p = {
     name: "EnableStaging",
-    version: "2.0.0",
-    description: "Bypasses experiment gate, fuck you aj.",
+    version: "2.0.1",
+    description: "Bypasses experiment gate. Fuck you aj.",
     authors: [{ name: "dia ♡", id: "696828906191454221" }],
     color: "#a0939d",
     onStart() {
       const e = () => {
-        s.open({
-          content: "Trying to enable experiments...",
-          source: i("debug"),
-        });
-        const n = r("getUsers"),
-          o = Object.values(
-            r("isDeveloper")._dispatcher._actionHandlers._dependencyGraph.nodes
+        const n = o("getUsers"),
+          r = Object.values(
+            o("isDeveloper")._dispatcher._actionHandlers._dependencyGraph
+              .nodes
           );
         try {
-          o.find(
+          r.find(
             (t) => t.name === "ExperimentStore"
           ).actionHandler.OVERLAY_INITIALIZE({ user: { flags: 1 } });
-        } catch {}
-        const a = n.getCurrentUser;
+        } catch { }
+        const i = n.getCurrentUser;
         (n.getCurrentUser = () => ({ hasFlag: () => !0 })),
-          o
+          r
             .find((t) => t.name === "DeveloperExperimentStore")
             .actionHandler.OVERLAY_INITIALIZE(),
-          (n.getCurrentUser = a),
-          s.open({
-            content: "Experiments have been successfully enabled.",
-            source: i("Check"),
+          (n.getCurrentUser = i);
+      },
+        s = () => {
+          c.open({
+            content: "Trying to enable experiments...",
+            source: a("debug"),
           });
-      };
+          const n = o("getUsers"),
+            r = Object.values(
+              o("isDeveloper")._dispatcher._actionHandlers._dependencyGraph
+                .nodes
+            );
+          try {
+            r.find(
+              (t) => t.name === "ExperimentStore"
+            ).actionHandler.OVERLAY_INITIALIZE({ user: { flags: 1 } });
+          } catch { }
+          const i = n.getCurrentUser;
+          (n.getCurrentUser = () => ({ hasFlag: () => !0 })),
+            r
+              .find((t) => t.name === "DeveloperExperimentStore")
+              .actionHandler.OVERLAY_INITIALIZE(),
+            (n.getCurrentUser = i),
+            c.open({
+              content: "Experiments have been successfully enabled.",
+              source: a("Check"),
+            });
+        },
+        u = () => {
+          e(),
+            setTimeout(() => {
+              s();
+            }, 100);
+        };
       setTimeout(() => {
-        e();
+        u();
       }, 300);
     },
-    onStop() {},
+    onStop() { },
   };
-u(d);
+d(p);
+
