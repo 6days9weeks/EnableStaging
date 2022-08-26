@@ -49,40 +49,40 @@ function r(e) {
   return window.enmity.assets.getIDByName(e);
 }
 const l = w(
-    (e) =>
-      e.open !== void 0 &&
-      e.close !== void 0 &&
-      !e.openLazy &&
-      !e.startDrag &&
-      !e.init &&
-      !e.openReplay &&
-      !e.openChannelCallPopout
-  ),
+  (e) =>
+    e.open !== void 0 &&
+    e.close !== void 0 &&
+    !e.openLazy &&
+    !e.startDrag &&
+    !e.init &&
+    !e.openReplay &&
+    !e.openChannelCallPopout
+),
   g = {
     name: "EnableStaging",
     version: "2.0.1",
     description: "Bypasses experiment gate. Fuck you aj.",
-    authors: [{ name: "dia \u2661", id: "696828906191454221" }],
+    authors: [{ name: "dia ♡", id: "696828906191454221" }],
     color: "#a0939d",
     onStart() {
       const e = () => {
-          const o = i("getUsers"),
-            m = Object.values(
-              i("isDeveloper")._dispatcher._actionHandlers._dependencyGraph
-                .nodes
-            );
-          try {
-            m.find(
-              (n) => n.name === "ExperimentStore"
-            ).actionHandler.OVERLAY_INITIALIZE({ user: { flags: 1 } });
-          } catch {}
-          const d = o.getCurrentUser;
-          (o.getCurrentUser = () => ({ hasFlag: () => !0 })),
-            m
-              .find((n) => n.name === "DeveloperExperimentStore")
-              .actionHandler.OVERLAY_INITIALIZE(),
-            (o.getCurrentUser = d);
-        },
+        const o = i("getUsers"),
+          m = Object.values(
+            i("isDeveloper")._dispatcher._actionHandlers._dependencyGraph
+              .nodes
+          );
+        try {
+          m.find(
+            (n) => n.name === "ExperimentStore"
+          ).actionHandler.OVERLAY_INITIALIZE({ user: { flags: 1 } });
+        } catch { }
+        const d = o.getCurrentUser;
+        (o.getCurrentUser = () => ({ hasFlag: () => !0 })),
+          m
+            .find((n) => n.name === "DeveloperExperimentStore")
+            .actionHandler.OVERLAY_INITIALIZE(),
+          (o.getCurrentUser = d);
+      },
         s = () => {
           l.open({
             content: "Trying to enable experiments...",
@@ -97,7 +97,7 @@ const l = w(
             m.find(
               (n) => n.name === "ExperimentStore"
             ).actionHandler.OVERLAY_INITIALIZE({ user: { flags: 1 } });
-          } catch {}
+          } catch { }
           const d = o.getCurrentUser;
           (o.getCurrentUser = () => ({ hasFlag: () => !0 })),
             m
