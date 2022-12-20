@@ -1,46 +1,42 @@
-function d(o) {
+function t(o) {
   window.enmity.plugins.registerPlugin(o);
 }
-function i(...o) {
+function m(...o) {
   return window.enmity.modules.getByProps(...o);
 }
-const s = window.enmity.modules.common.Dialog;
+const d = window.enmity.modules.common.Dialog;
 const { native: e } = window.enmity;
-function w() {
+function s() {
   e.reload();
 }
-e.version, e.build, e.device, e.version;
-const l = {
+const w = {
   name: "EnableStaging",
-  version: "2.0.2",
+  version: "3.0.0",
   description: "Bypasses experiment gate. Fuck you aj.",
   authors: [{ name: "dia \u2661", id: "696828906191454221" }],
-  color: "#a0939d",
+  color: "#2F3136",
   onStart() {
-    const o = i("getUsers"),
-      m = Object.values(
-        i("isDeveloper")._dispatcher._actionHandlers._dependencyGraph.nodes
-      );
-    try {
-      m.find(
-        (n) => n.name === "ExperimentStore"
-      ).actionHandler.OVERLAY_INITIALIZE({ user: { flags: 1 } });
-    } catch { }
-    const t = o.getCurrentUser;
-    (o.getCurrentUser = () => ({ hasFlag: () => !0 })),
-      m
-        .find((n) => n.name === "DeveloperExperimentStore")
-        .actionHandler.OVERLAY_INITIALIZE(),
-      (o.getCurrentUser = t);
+    const o = m("getCurrentUser"),
+      i = m("getSerializedState");
+    (o.getCurrentUser().flags |= 1),
+      o._dispatcher._actionHandlers
+        ._computeOrderedActionHandlers("OVERLAY_INITIALIZE")
+        .forEach(function (n) {
+          n.name.includes("Experiment") &&
+            n.actionHandler({
+              serializedExperimentStore: i.getSerializedState(),
+              user: { flags: 1 },
+            });
+        });
   },
   onStop() {
-    s.show({
+    d.show({
       title: "Experiments Disabled.",
       body: "Disabling Experiments requires a restart, would you like to restart Discord?",
       confirmText: "Yes",
       cancelText: "No",
-      onConfirm: w,
+      onConfirm: s,
     });
   },
 };
-d(l);
+t(w);
