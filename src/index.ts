@@ -16,18 +16,23 @@ const EnableStaging: Plugin = {
   color: "#2F3136",
 
   onStart() {
-    const CurrentUserStore = getByProps("getCurrentUser");
-    const SerialState = getByProps("getSerializedState");
-    CurrentUserStore.getCurrentUser().flags |= 1;
-    CurrentUserStore._dispatcher._actionHandlers
-      ._computeOrderedActionHandlers("OVERLAY_INITIALIZE")
-      .forEach(function (e) {
-        e.name.includes("Experiment") &&
-          e.actionHandler({
-            serializedExperimentStore: SerialState.getSerializedState(),
-            user: { flags: 1 },
-          });
-      });
+    const e = () => {
+      const CurrentUserStore = getByProps("getCurrentUser");
+      const SerialState = getByProps("getSerializedState");
+      CurrentUserStore.getCurrentUser().flags |= 1;
+      CurrentUserStore._dispatcher._actionHandlers
+        ._computeOrderedActionHandlers("OVERLAY_INITIALIZE")
+        .forEach(function (e) {
+          e.name.includes("Experiment") &&
+            e.actionHandler({
+              serializedExperimentStore: SerialState.getSerializedState(),
+              user: { flags: 1 },
+            });
+        });
+    };
+    setTimeout(() => {
+      e();
+    }, 500);
   },
 
   onStop() {
