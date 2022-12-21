@@ -17,6 +17,9 @@ const EnableStaging: Plugin = {
 
   onStart() {
     const e = () => {
+      // modified from a desktop snippet
+      // don't know who originally made it but
+      // thanks Dziurwa <3  
       const CurrentUserStore = getByProps("getCurrentUser");
       const SerialState = getByProps("getSerializedState");
       CurrentUserStore.getCurrentUser().flags |= 1;
