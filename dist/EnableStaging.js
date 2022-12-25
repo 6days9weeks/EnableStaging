@@ -4,6 +4,7 @@ function d(o) {
 function i(...o) {
   return window.enmity.modules.getByProps(...o);
 }
+const s = window.enmity.modules.common.Dialog;
 const { native: e } = window.enmity;
 function w() {
   e.reload();
